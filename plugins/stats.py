@@ -37,7 +37,10 @@ def stats(inp):
         thenewlist = years.sub("",thestring)
         output += thenewlist + "?"
     elif thecount == 1:
-        output = "One Player Matched"
+        i = results.xpath('.//*[@id="players"]/div[@class="search-item"]/div[@class="search-item-name"]/a/@href')
+        #i = elem.getchildren()
+        output = i
+        # output = "One Player Matched"
     else:
         output = "No results found."
     return output
