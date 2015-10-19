@@ -8,3 +8,6 @@ pep8.py
 .pydevproject
 *.db
 web
+.idea
+build
+plugins/*.py.bak
