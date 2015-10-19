@@ -22,9 +22,8 @@ def stats(inp):
     strcount = str(thecount)
     print thecount
     if thecount > 1:
-        output = ""
+        output = "Returned " + strcount + " results. Did you mean: "
         for elem in results.findall('.//*[@id="players"]/div[@class="search-item"]/div[@class="search-item-name"]'):
-            output += "Returned " + strcount + " results. Did you mean: "
             for i in elem.getchildren():
                 print i.text
                 thelist.insert(len(thelist),i.text)
