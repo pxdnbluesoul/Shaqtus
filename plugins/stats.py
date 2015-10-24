@@ -12,16 +12,11 @@ administrators = ["bluesoul"]  # Multiple nicks are separated by commas and deli
 
 def db_init(db):
     print "In db_init function."
-    # check to see that our db has the searches table and return a connection.
-    #db.commit()
-    #db.executescript("drop table if exists searches")
     try:
         db.execute("create table if not exists searches"
                    "(search_string UNIQUE PRIMARY KEY,link)")
     except db.Error as e:
         print "Error in db_init: " + str(e)
-    #db.commit()
-
     return db
 
 
@@ -34,11 +29,11 @@ def get_link(db, inp):
                          (inp.lower(),)).fetchone()
     except db.Error as e:
         print "Error in get_link: " + str(e)
-    #db.commit()
     print "Printing row in get_link"
     print row
     print "Contents of inp.lower():" + str(inp)
     return row
+
 
 
 def store_link(db, stub, search):
@@ -47,7 +42,6 @@ def store_link(db, stub, search):
         db.execute("insert into searches (search_string, link) VALUES (?, ?)", (search.lower(), stub))
     except db.Error as e:
         print "Error in store_link: " + str(e)
-    #db.commit()
     return stub
 
 
@@ -160,12 +154,17 @@ def stats(inp, db=None):
                 elif output.find("Returned") is not -1:
                     return output
             else:
-                #terms = find_player(inp)
-                stub = store_link(db, output[0], output[1])
-                output = get_stats(stub)
-                return output
-    except db.DatabaseError, e:
+                print output
+                if re.match("\w/\w", output[0]) is not None:
+                    stub = store_link(db, output[0], output[1])
+                    output = get_stats(stub)
+                    return output
+                else:
+                     print "Regex failed on " + str(output[0])
+                     raise LookupError('Bad Link from BBall-Ref')
+    except LookupError as e:
         print e
+        return "Basketball Reference gave a bad link. Manual addition via .addlink needed."
 
 
 @hook.command
