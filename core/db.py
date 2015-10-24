@@ -9,6 +9,6 @@ def get_db_connection(conn, name=''):
         name = '%s.%s.db' % (conn.nick, conn.server)
 
     filename = os.path.join(bot.persist_dir, name)
-    return sqlite3.connect(filename, timeout=10)
+    return sqlite3.connect(filename, isolation_level=None)
 
 bot.get_db_connection = get_db_connection

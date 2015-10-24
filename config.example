@@ -1,0 +1,51 @@
+{
+  "connections":
+  {
+    "SynIRC":
+    {
+      "server": "asimov.freenode.net",
+      "nick": "Skybot",
+	  "nickserv_password": "",
+      "channels": ["#skybot"]
+    }
+  },
+  "prefix": ".",
+  "disabled_plugins": [],
+  "disabled_commands": 
+  [
+    "python",
+    "py"
+  ],
+  "acls": {},
+  "api_keys": { "twitter":{
+                           "consumer": "abcdef1234567890",
+				           "consumer_secret": "abcdef1234567890",
+				           "access": "abcdef1234567890",
+				           "access_secret": "abcdef1234567890"
+						   },
+				"wunderground": "abcdef1234567890",
+				"wolframalpha": "abcdef1234567890",
+                "google": "abcdef1234567890",
+                "youtube": "abcdef1234567890"
+  },
+  "censored_strings":
+  [
+    "DCC SEND",
+    "1nj3ct",
+    "thewrestlinggame",
+    "startkeylogger",
+    "hybux",
+    "\\0",
+    "\\x01",
+    "!coz",
+    "!tell /x"
+  ],
+  "ignored":
+  [
+    "GosuShoh",
+	"sam@unaffiliated/shoh",
+	"BilliardK@unaffiliated/billiardking",
+	"Gshoh",
+	"Shoh"
+  ]
+}
