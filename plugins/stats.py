@@ -68,11 +68,12 @@ def get_stats(stub):
     handle = urllib2.urlopen(url)
     read = handle.read()
     results = etree.HTML(read)
-    thelist = []
-    floatcount = results.xpath('count(.//*[@id="per_game"]//tr[@class="full_table"][last()])')
-    thecount = int(floatcount)
-    strcount = str(thecount)
-    print "Got " + strcount + " items."
+    name = results.xpath('.//*[@id="info_box"]/h1')
+    namefield = []
+    if not name:  # Sometimes the name isn't where we expect it to be.
+        name = results.xpath('.//*[@id="info_box"]/div[3]/h1')  # Usually that means it's here.
+    for x in name[0].iter():
+        namefield.insert(len(namefield), x.text)
     stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
     statlist = []
     for i in stats2[0].iter():
@@ -85,7 +86,7 @@ def get_stats(stub):
         statlist[5] = "Multiple Teams"   # Indicate as such in the proper spot
         statlist.insert(6, None)         # And add a blank entry to match the rest of the players.
     print statlist
-    formatted = ("| " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) + " GP | " +
+    formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) + " GP | " +
                  str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
                  str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
                  str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
