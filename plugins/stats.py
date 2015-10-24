@@ -8,6 +8,7 @@ import re
 from lxml import etree
 import types
 
+administrators = ["bluesoul"]  # Multiple nicks are separated by commas and delimited with quotes.
 
 def db_init(db):
     print "In db_init function."
@@ -48,6 +49,16 @@ def store_link(db, stub, search):
         print "Error in store_link: " + str(e)
     #db.commit()
     return stub
+
+
+def remove_link(db, search):
+    print "In remove_link function."
+    try:
+        db.execute("delete from searches where search_string = ?", (search.lower(),))
+        return True
+    except db.Error as e:
+        print "Error in remove_link: " + str(e)
+        return False
 
 
 def get_stats(stub):
@@ -154,3 +165,30 @@ def stats(inp, db=None):
                 return output
     except db.DatabaseError, e:
         print e
+
+
+@hook.command
+def addlink(inp, nick='', db=None):
+    ".addlink <shortened link to bball-ref page> <search terms> -- Force an insert to the database to add a link to a player page."
+
+    if nick in administrators:
+        arglist = inp.split(':', 1)
+        stub = store_link(db, arglist[0], urllib.quote_plus(arglist[1]))
+        return "Stored " + stub + " for term " + arglist[1]
+    else:
+        return "Only bot administrators can run that command."
+
+@hook.command
+def removelink(inp, nick='', db=None):
+    ".removelink <search terms> -- Remove a bad link from the database."
+
+    if nick in administrators:
+        result = remove_link(db, urllib.quote_plus(inp))
+        if result is True:
+            return "Removed " + inp + " successfully."
+        elif result is False:
+            return inp + " is not in database."
+        else:
+            return "Something bad happened. No response from remove_link() call."
+    else:
+        return "Only bot administrators can run that command."
