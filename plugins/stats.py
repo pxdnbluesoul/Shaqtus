@@ -66,9 +66,23 @@ def get_stats(stub):
     statlist = []
     for i in stats2[0].iter():
         statlist.insert(len(statlist), i.text)
+    try:
+        statlist.remove(u'\xa0\u2605')  # Remove all-star designation
+    except:
+        pass
+    if statlist[4] == "TOT":             # If a player played for more than 1 team
+        statlist[5] = "Multiple Teams"   # Indicate as such in the proper spot
+        statlist.insert(6, None)         # And add a blank entry to match the rest of the players.
     print statlist
-    print "Displaying results for the " + str(statlist[2]) + " season."
-    return "Closing."
+    formatted = ("| " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) + " GP | " +
+                 str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
+                 str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
+                 str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
+                 str(statlist[23]) + " FTA | " + str(statlist[24]) + " FT% | " + str(statlist[25]) + " ORB | " +
+                 str(statlist[26]) + " DRB | " + str(statlist[27]) + " RPG | " + str(statlist[28]) + " APG | " +
+                 str(statlist[29]) + " SPG | " + str(statlist[30]) + " BPG | " + str(statlist[31]) + " TOV | " +
+                 str(statlist[32]) + " PF | " + str(statlist[33]) + " PPG |")
+    return formatted
 
 
 def find_player(inp):
