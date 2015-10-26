@@ -36,7 +36,6 @@ def get_link(db, inp):
         print "Error in get_link: " + str(e)
 
 
-
 def store_link(db, stub, search):
     print "In store_link function."
     try:
