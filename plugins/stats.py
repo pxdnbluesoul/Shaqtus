@@ -1,14 +1,15 @@
-import json
+#  import json
 import urllib
 import urllib2
-import time
+#  import time
 from util import hook
-import html
+#  import html
 import re
 from lxml import etree
 import types
 
 administrators = ["bluesoul"]  # Multiple nicks are separated by commas and delimited with quotes.
+
 
 def db_init(db):
     print "In db_init function."
@@ -27,12 +28,12 @@ def get_link(db, inp):
         row = db.execute("select link from searches where"
                          " search_string=lower(?) limit 1",
                          (inp.lower(),)).fetchone()
+        print "Printing row in get_link"
+        print row
+        print "Contents of inp.lower():" + str(inp)
+        return row
     except db.Error as e:
         print "Error in get_link: " + str(e)
-    print "Printing row in get_link"
-    print row
-    print "Contents of inp.lower():" + str(inp)
-    return row
 
 
 
@@ -74,13 +75,14 @@ def get_stats(stub):
         statlist.insert(len(statlist), i.text)
     try:
         statlist.remove(u'\xa0\u2605')  # Remove all-star designation
-    except:
+    except ValueError:
         pass
     if statlist[4] == "TOT":             # If a player played for more than 1 team
         statlist[5] = "Multiple Teams"   # Indicate as such in the proper spot
         statlist.insert(6, None)         # And add a blank entry to match the rest of the players.
     print statlist
-    formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) + " GP | " +
+    formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) +
+                 " GP | " +
                  str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
                  str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
                  str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
@@ -109,25 +111,29 @@ def find_player(inp):
         for elem in results.findall('.//*[@id="players"]/div[@class="search-item"]/div[@class="search-item-name"]'):
             for i in elem.getchildren():
                 print i.text
-                thelist.insert(len(thelist),i.text)
+                thelist.insert(len(thelist), i.text)
         try:
             thelist.remove('All-Star')
             thelist.remove('Hall of Fame')
-        except:
+        except ValueError:
             pass
         years = re.compile("\s\(\d{4}\-\d{4}\)|\s\(\d{4}\)")
         thestring = ", ".join(thelist)
-        thenewlist = years.sub("",thestring)
+        thenewlist = years.sub("", thestring)
         output += thenewlist + "?"
         return output
     elif thecount == 1:
         print "thecount == 1"
         i = results.xpath('.//*[@id="players"]/div[@class="search-item"]/div[@class="search-item-name"]/a/@href')
+        print "results.xpath: " + str(i)
         i = ''.join(i)
-        i = i.lstrip("/players/")
+        print "after join: " + i
+        i = re.sub('/players/', '', i)
+        print "after lstrip: " + i
         output = i + "|" + inp
+        print "output: " + output
         output = output.split("|")
-        return output # Return a list
+        return output  # Return a list
     else:
         output = "No results found."
         return output
@@ -135,7 +141,7 @@ def find_player(inp):
 
 @hook.command
 def stats(inp, db=None):
-    ".stats <player> -- Search Basketball Reference for player stats. Last logged year, per-game. Use .per36, .per100, .statsbyyear or .advanced for other stats."
+    """.stats <player> -- Search Basketball Reference for player stats. Last logged year, per-game."""
 
     print "In stats function."
     db_init(db)
@@ -160,8 +166,8 @@ def stats(inp, db=None):
                     output = get_stats(stub)
                     return output
                 else:
-                     print "Regex failed on " + str(output[0])
-                     raise LookupError('Bad Link from BBall-Ref')
+                    print "Regex failed on " + str(output[0])
+                    raise LookupError('Bad Link from BBall-Ref')
     except LookupError as e:
         print e
         return "Basketball Reference gave a bad link. Manual addition via .addlink needed."
@@ -169,7 +175,7 @@ def stats(inp, db=None):
 
 @hook.command
 def addlink(inp, nick='', db=None):
-    ".addlink <shortened link to bball-ref page> <search terms> -- Force an insert to the database to add a link to a player page."
+    """.addlink <shortened link to bball-ref page> <search terms> -- Manually add player link."""
 
     if nick in administrators:
         arglist = inp.split(':', 1)
@@ -178,9 +184,10 @@ def addlink(inp, nick='', db=None):
     else:
         return "Only bot administrators can run that command."
 
+
 @hook.command
 def removelink(inp, nick='', db=None):
-    ".removelink <search terms> -- Remove a bad link from the database."
+    """.removelink <search terms> -- Remove a bad link from the database."""
 
     if nick in administrators:
         result = remove_link(db, urllib.quote_plus(inp))
