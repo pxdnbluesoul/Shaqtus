@@ -11,3 +11,4 @@ web
 .idea
 build
 plugins/*.py.bak
+plugins/nba.py
