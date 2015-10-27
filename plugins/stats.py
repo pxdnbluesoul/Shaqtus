@@ -68,13 +68,78 @@ def get_stats(stub, year, per, playoffs):
         name = results.xpath('.//*[@id="info_box"]/div[3]/h1')  # Usually that means it's here.
     for x in name[0].iter():
         namefield.insert(len(namefield), x.text)
-    if year is None:
-        stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
-    else:
-        if year == "career":
-            stats2 = results.xpath('.//*[@id="per_game"]/tfoot/tr[1]')
+    if playoffs is True:
+        if per == "per36":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="playoffs_per_minute"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="playoffs_per_minute"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="playoffs_per_minute.' + year + '"]')
+        elif per == "per100":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="playoffs_per_poss"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="playoffs_per_poss"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="playoffs_per_poss.' + year + '"]')
+        elif per == "advanced":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="playoffs_advanced"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="playoffs_advanced"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="playoffs_advanced.' + year + '"]')
         else:
-            stats2 = results.xpath('.//*[@id="per_game.' + year + '"]')
+            if year is None:
+                stats2 = results.xpath('.//*[@id="playoffs_per_game"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="playoffs_per_game"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="playoffs_per_game.' + year + '"]')
+    else:
+        if per == "per36":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="per_minute"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="per_minute"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="per_minute.' + year + '"]')
+        elif per == "per100":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="per_poss"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="per_poss"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="per_poss.' + year + '"]')
+        elif per == "advanced":
+            if year is None:
+                stats2 = results.xpath('.//*[@id="advanced"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="advanced"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="advanced.' + year + '"]')
+        else:
+            if year is None:
+                stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
+            elif year == "career":
+                stats2 = results.xpath('.//*[@id="per_game"]/tfoot/tr[1]')
+            else:
+                stats2 = results.xpath('.//*[@id="per_game.' + year + '"]')
+    # if per == "per36":
+    #     if year is None:
+    #         stats2 = results.xpath('.//*[@id="per_minute"]//tr[@class="full_table"][last()]')
+    #     elif year == "career":
+    #         stats2 = results.xpath('.//*[@id="per_minute"]/tfoot/tr[1]')
+    #     else:
+    #         stats2 = results.xpath('.//*[@id="per_minute.' + year + '"]')
+    # if year is None:
+    #     stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
+    # else:
+    #     if year == "career":
+    #         stats2 = results.xpath('.//*[@id="per_game"]/tfoot/tr[1]')
+    #     else:
+    #         stats2 = results.xpath('.//*[@id="per_game.' + year + '"]')
     statlist = []
     for i in stats2[0].iter():
         statlist.insert(len(statlist), i.text)
@@ -82,29 +147,94 @@ def get_stats(stub, year, per, playoffs):
         statlist.remove(u'\xa0\u2605')  # Remove all-star designation
     except ValueError:
         pass
+    try:
+        statlist.remove(u'\xa0\u274d')  # Remove championship designation
+    except ValueError:
+        pass
     if statlist[4] == "TOT":             # If a player played for more than 1 team
         statlist[5] = "Multiple Teams"   # Indicate as such in the proper spot
         statlist.insert(6, None)         # And add a blank entry to match the rest of the players.
     print statlist
-    if year == "career":
-        formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
-                     str(statlist[7]) + " GS | " + str(statlist[8]) + " MPG | " + str(statlist[9]) + " FGM | " +
-                     str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
-                     str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[19]) + " FTA | " +
-                     str(statlist[20]) + " FTM | " + str(statlist[21]) + " FT% | " + str(statlist[22]) + " ORB | " +
-                     str(statlist[23]) + " DRB | " + str(statlist[24]) + " TRB | " + str(statlist[25]) + " APG | " +
-                     str(statlist[26]) + " SPG | " + str(statlist[27]) + " BPG | " + str(statlist[28]) + " TOV | " +
-                     str(statlist[29]) + " PF | " + str(statlist[30]) + " PPG |")
+    if per == "advanced":
+        if year == "career":
+            formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[8]) + " PER | " +
+                         str(statlist[9]) + " TS% | " +
+                         str(statlist[10]) + " 3PAr | " + str(statlist[11]) + " FTr | " + str(statlist[12]) + " ORB% | " +
+                         str(statlist[13]) + " DRB% | " + str(statlist[14]) + " TRB% | " + str(statlist[15]) + " AST% | " +
+                         str(statlist[16]) + " STL% | " + str(statlist[17]) + " BLK% | " + str(statlist[18]) + " TOV% | " +
+                         str(statlist[19]) + " USG% | " + str(statlist[21]) + " OWS | " + str(statlist[22]) + " DWS | " +
+                         str(statlist[23]) + " WS | " + str(statlist[24]) + " WS/48 | " + str(statlist[26]) + " OBPM | " +
+                         str(statlist[27]) + " DBPM | " + str(statlist[28]) + " BPM | " + str(statlist[29]) + " VORP |")
+        else:
+            formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[11]) + " PER | " +
+                         str(statlist[12]) + " TS% | " +
+                         str(statlist[13]) + " 3PAr | " + str(statlist[14]) + " FTr | " + str(statlist[15]) + " ORB% | " +
+                         str(statlist[16]) + " DRB% | " + str(statlist[17]) + " TRB% | " + str(statlist[18]) + " AST% | " +
+                         str(statlist[19]) + " STL% | " + str(statlist[20]) + " BLK% | " + str(statlist[21]) + " TOV% | " +
+                         str(statlist[22]) + " USG% | " + str(statlist[24]) + " OWS | " + str(statlist[25]) + " DWS | " +
+                         str(statlist[26]) + " WS | " + str(statlist[27]) + " WS/48 | " + str(statlist[29]) + " OBPM | " +
+                         str(statlist[30]) + " DBPM | " + str(statlist[31]) + " BPM | " + str(statlist[32]) + " VORP |")
+    elif per == "per100":
+        if year == "career":
+            formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
+                         str(statlist[7]) + " GS | " + str(statlist[8]) + " MP | " + str(statlist[9]) + " FGM | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
+                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTA | " +
+                         str(statlist[19]) + " FTM | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
+                         str(statlist[22]) + " DRB | " + str(statlist[23]) + " TRB | " + str(statlist[24]) + " AST | " +
+                         str(statlist[25]) + " STL | " + str(statlist[26]) + " BLK | " + str(statlist[27]) + " TOV | " +
+                         str(statlist[28]) + " PF | " + str(statlist[29]) + " PTS | " + str(statlist[31]) + " ORtg | " +
+                         str(statlist[32]) + " DRtg |")
+        else:
+            formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[9]) + " GP | " +
+                         str(statlist[10]) + " GS | " + str(statlist[11]) + " MP | " + str(statlist[12]) + " FGM | " +
+                         str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PA | " +
+                         str(statlist[16]) + " 3PM | " + str(statlist[17]) + " 3P% | " + str(statlist[21]) + " FTA | " +
+                         str(statlist[22]) + " FTM | " + str(statlist[23]) + " FT% | " + str(statlist[24]) + " ORB | " +
+                         str(statlist[25]) + " DRB | " + str(statlist[26]) + " TRB | " + str(statlist[27]) + " AST | " +
+                         str(statlist[28]) + " STL | " + str(statlist[29]) + " BLK | " + str(statlist[30]) + " TOV | " +
+                         str(statlist[31]) + " PF | " + str(statlist[32]) + " PTS | " + str(statlist[34]) + " ORtg | " +
+                         str(statlist[35]) + " DRtg |")
+    elif per == "per36":
+        if year == "career":
+            formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
+                         str(statlist[7]) + " GS | " + str(statlist[8]) + " MP | " + str(statlist[9]) + " FGM | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
+                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTA | " +
+                         str(statlist[19]) + " FTM | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
+                         str(statlist[22]) + " DRB | " + str(statlist[23]) + " TRB | " + str(statlist[24]) + " AST | " +
+                         str(statlist[25]) + " STL | " + str(statlist[26]) + " BLK | " + str(statlist[27]) + " TOV | " +
+                         str(statlist[28]) + " PF | " + str(statlist[29]) + " PTS |")
+        else:
+            formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " +
+                         str(statlist[9]) + " GP | " +
+                         str(statlist[10]) + " GS | " + str(statlist[11]) + " MP | " + str(statlist[12]) + " FGM | " +
+                         str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
+                         str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[21]) + " FTM | " +
+                         str(statlist[22]) + " FTA | " + str(statlist[23]) + " FT% | " + str(statlist[24]) + " ORB | " +
+                         str(statlist[25]) + " DRB | " + str(statlist[26]) + " TRB | " + str(statlist[27]) + " AST | " +
+                         str(statlist[28]) + " STL | " + str(statlist[29]) + " BLK | " + str(statlist[30]) + " TOV | " +
+                         str(statlist[31]) + " PF | " + str(statlist[32]) + " PTS |")
     else:
-        formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " +
-                     str(statlist[9]) + " GP | " +
-                     str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
-                     str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
-                     str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
-                     str(statlist[23]) + " FTA | " + str(statlist[24]) + " FT% | " + str(statlist[25]) + " ORB | " +
-                     str(statlist[26]) + " DRB | " + str(statlist[27]) + " RPG | " + str(statlist[28]) + " APG | " +
-                     str(statlist[29]) + " SPG | " + str(statlist[30]) + " BPG | " + str(statlist[31]) + " TOV | " +
-                     str(statlist[32]) + " PF | " + str(statlist[33]) + " PPG |")
+        if year == "career":
+            formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
+                         str(statlist[7]) + " GS | " + str(statlist[8]) + " MPG | " + str(statlist[9]) + " FGM | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
+                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[19]) + " FTA | " +
+                         str(statlist[20]) + " FTM | " + str(statlist[21]) + " FT% | " + str(statlist[22]) + " ORB | " +
+                         str(statlist[23]) + " DRB | " + str(statlist[24]) + " TRB | " + str(statlist[25]) + " APG | " +
+                         str(statlist[26]) + " SPG | " + str(statlist[27]) + " BPG | " + str(statlist[28]) + " TOV | " +
+                         str(statlist[29]) + " PF | " + str(statlist[30]) + " PPG |")
+        else:
+            formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " +
+                         str(statlist[9]) + " GP | " +
+                         str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
+                         str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
+                         str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
+                         str(statlist[23]) + " FTA | " + str(statlist[24]) + " FT% | " + str(statlist[25]) + " ORB | " +
+                         str(statlist[26]) + " DRB | " + str(statlist[27]) + " RPG | " + str(statlist[28]) + " APG | " +
+                         str(statlist[29]) + " SPG | " + str(statlist[30]) + " BPG | " + str(statlist[31]) + " TOV | " +
+                         str(statlist[32]) + " PF | " + str(statlist[33]) + " PPG |")
     return formatted
 
 
