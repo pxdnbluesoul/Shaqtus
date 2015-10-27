@@ -55,7 +55,7 @@ def remove_link(db, search):
         return False
 
 
-def get_stats(stub):
+def get_stats(stub, year, per, playoffs):
     print "In get_stats function."
     stub = ''.join(stub)
     url = 'http://www.basketball-reference.com/players/' + stub
@@ -68,7 +68,13 @@ def get_stats(stub):
         name = results.xpath('.//*[@id="info_box"]/div[3]/h1')  # Usually that means it's here.
     for x in name[0].iter():
         namefield.insert(len(namefield), x.text)
-    stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
+    if year is None:
+        stats2 = results.xpath('.//*[@id="per_game"]//tr[@class="full_table"][last()]')
+    else:
+        if year == "career":
+            stats2 = results.xpath('.//*[@id="per_game"]/tfoot/tr[1]')
+        else:
+            stats2 = results.xpath('.//*[@id="per_game.' + year + '"]')
     statlist = []
     for i in stats2[0].iter():
         statlist.insert(len(statlist), i.text)
@@ -80,15 +86,25 @@ def get_stats(stub):
         statlist[5] = "Multiple Teams"   # Indicate as such in the proper spot
         statlist.insert(6, None)         # And add a blank entry to match the rest of the players.
     print statlist
-    formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " + str(statlist[9]) +
-                 " GP | " +
-                 str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
-                 str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
-                 str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
-                 str(statlist[23]) + " FTA | " + str(statlist[24]) + " FT% | " + str(statlist[25]) + " ORB | " +
-                 str(statlist[26]) + " DRB | " + str(statlist[27]) + " RPG | " + str(statlist[28]) + " APG | " +
-                 str(statlist[29]) + " SPG | " + str(statlist[30]) + " BPG | " + str(statlist[31]) + " TOV | " +
-                 str(statlist[32]) + " PF | " + str(statlist[33]) + " PPG |")
+    if year == "career":
+        formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
+                     str(statlist[7]) + " GS | " + str(statlist[8]) + " MPG | " + str(statlist[9]) + " FGM | " +
+                     str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
+                     str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[19]) + " FTA | " +
+                     str(statlist[20]) + " FTM | " + str(statlist[21]) + " FT% | " + str(statlist[22]) + " ORB | " +
+                     str(statlist[23]) + " DRB | " + str(statlist[24]) + " TRB | " + str(statlist[25]) + " APG | " +
+                     str(statlist[26]) + " SPG | " + str(statlist[27]) + " BPG | " + str(statlist[28]) + " TOV | " +
+                     str(statlist[29]) + " PF | " + str(statlist[30]) + " PPG |")
+    else:
+        formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[5]) + " | " +
+                     str(statlist[9]) + " GP | " +
+                     str(statlist[10]) + " GS | " + str(statlist[11]) + " MPG | " + str(statlist[12]) + " FGM | " +
+                     str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
+                     str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[22]) + " FTM | " +
+                     str(statlist[23]) + " FTA | " + str(statlist[24]) + " FT% | " + str(statlist[25]) + " ORB | " +
+                     str(statlist[26]) + " DRB | " + str(statlist[27]) + " RPG | " + str(statlist[28]) + " APG | " +
+                     str(statlist[29]) + " SPG | " + str(statlist[30]) + " BPG | " + str(statlist[31]) + " TOV | " +
+                     str(statlist[32]) + " PF | " + str(statlist[33]) + " PPG |")
     return formatted
 
 
@@ -140,16 +156,58 @@ def find_player(inp):
 
 @hook.command
 def stats(inp, db=None):
-    """.stats <player> -- Search Basketball Reference for player stats. Last logged year, per-game."""
+    """.stats <player> [per36|per100|advanced] [playoffs] [career|4-digit year] -- Search Basketball Reference for player stats. Default is last logged year, per-game."""
 
     print "In stats function."
     db_init(db)
+
+    yearmatch = re.search('(\d\d\d\d)', inp)
+    year = None  # Prepping for get_stats if no year set. Defaults to most recent.
+    if yearmatch:
+        year = yearmatch.group(0)
+        print "Year: " + year
+        inp = re.sub('(\s\d\d\d\d)', '', inp)
+
+    per36match = re.search('(per36)', inp)
+    per = None
+    if per36match:
+        per = "per36"
+        inp = re.sub('\sper36', '', inp)
+    per100match = re.search('(per100)', inp)
+    if per100match:
+        if per == "per36":
+            return "You can't run per36 and per100 at the same time."
+        else:
+            per = "per100"
+            inp = re.sub('\sper100', '', inp)
+    advancedmatch = re.search('(advanced)', inp)
+    if advancedmatch:
+        if (per == "per36") or (per == "per100"):
+            return "Cannot mix advanced stats with per36 or per100"
+        else:
+            per = "advanced"
+            inp = re.sub('\sadvanced', '', inp)
+
+    playoffs = False
+    playoffsmatch = re.search('(playoffs)', inp)
+    if playoffsmatch:
+        playoffs = True
+        inp = re.sub('\splayoffs', '', inp)
+
+    careermatch = re.search('(career)', inp)
+    if careermatch:
+        if year is not None:
+            return "Cannot search for career and year at the same time."
+        else:
+            year = "career"
+            inp = re.sub('\scareer', '', inp)
+
     try:
         row = get_link(db, inp)
         if row is not None:
             print "Contents of row: "
             print row
-            output = get_stats(row)
+            output = get_stats(row, year, per, playoffs)
             return output
         else:
             output = find_player(inp)
@@ -162,19 +220,19 @@ def stats(inp, db=None):
                 print output
                 if re.match("\w/\w", output[0]) is not None:
                     stub = store_link(db, output[0], output[1])
-                    output = get_stats(stub)
+                    output = get_stats(stub, year, per, playoffs)
                     return output
                 else:
                     print "Regex failed on " + str(output[0])
                     raise LookupError('Bad Link from BBall-Ref')
     except LookupError as e:
         print e
-        return "Basketball Reference gave a bad link. Manual addition via .addlink needed."
+        return "Lookup failed."
 
 
 @hook.command
 def addlink(inp, nick='', db=None):
-    """.addlink <shortened link to bball-ref page> <search terms> -- Manually add player link."""
+    """.addlink <shortened link to bball-ref page>:<search terms> -- Manually add player link. e.g., .addlink o/onealsh01.html:shaq"""
 
     if nick in administrators:
         arglist = inp.split(':', 1)
@@ -186,7 +244,7 @@ def addlink(inp, nick='', db=None):
 
 @hook.command
 def removelink(inp, nick='', db=None):
-    """.removelink <search terms> -- Remove a bad link from the database."""
+    """.removelink <search terms> -- Remove a bad link from the database. e.g., .removelink shaq"""
 
     if nick in administrators:
         result = remove_link(db, urllib.quote_plus(inp))
