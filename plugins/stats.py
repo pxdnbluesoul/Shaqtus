@@ -178,9 +178,9 @@ def get_stats(stub, year, per, playoffs):
         if year == "career":
             formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
                          str(statlist[7]) + " GS | " + str(statlist[8]) + " MP | " + str(statlist[9]) + " FGM | " +
-                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
-                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTA | " +
-                         str(statlist[19]) + " FTM | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PM | " +
+                         str(statlist[13]) + " 3PA | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTM | " +
+                         str(statlist[19]) + " FTA | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
                          str(statlist[22]) + " DRB | " + str(statlist[23]) + " TRB | " + str(statlist[24]) + " AST | " +
                          str(statlist[25]) + " STL | " + str(statlist[26]) + " BLK | " + str(statlist[27]) + " TOV | " +
                          str(statlist[28]) + " PF | " + str(statlist[29]) + " PTS | " + str(statlist[31]) + " ORtg | " +
@@ -188,9 +188,9 @@ def get_stats(stub, year, per, playoffs):
         else:
             formatted = ("| " + namefield[0] + " | " + str(statlist[2]) + " | " + str(statlist[9]) + " GP | " +
                          str(statlist[10]) + " GS | " + str(statlist[11]) + " MP | " + str(statlist[12]) + " FGM | " +
-                         str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PA | " +
-                         str(statlist[16]) + " 3PM | " + str(statlist[17]) + " 3P% | " + str(statlist[21]) + " FTA | " +
-                         str(statlist[22]) + " FTM | " + str(statlist[23]) + " FT% | " + str(statlist[24]) + " ORB | " +
+                         str(statlist[13]) + " FGA | " + str(statlist[14]) + " FG% | " + str(statlist[15]) + " 3PM | " +
+                         str(statlist[16]) + " 3PA | " + str(statlist[17]) + " 3P% | " + str(statlist[21]) + " FTM | " +
+                         str(statlist[22]) + " FTA | " + str(statlist[23]) + " FT% | " + str(statlist[24]) + " ORB | " +
                          str(statlist[25]) + " DRB | " + str(statlist[26]) + " TRB | " + str(statlist[27]) + " AST | " +
                          str(statlist[28]) + " STL | " + str(statlist[29]) + " BLK | " + str(statlist[30]) + " TOV | " +
                          str(statlist[31]) + " PF | " + str(statlist[32]) + " PTS | " + str(statlist[34]) + " ORtg | " +
@@ -199,9 +199,9 @@ def get_stats(stub, year, per, playoffs):
         if year == "career":
             formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
                          str(statlist[7]) + " GS | " + str(statlist[8]) + " MP | " + str(statlist[9]) + " FGM | " +
-                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
-                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTA | " +
-                         str(statlist[19]) + " FTM | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PM | " +
+                         str(statlist[13]) + " 3PA | " + str(statlist[14]) + " 3P% | " + str(statlist[18]) + " FTM | " +
+                         str(statlist[19]) + " FTA | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
                          str(statlist[22]) + " DRB | " + str(statlist[23]) + " TRB | " + str(statlist[24]) + " AST | " +
                          str(statlist[25]) + " STL | " + str(statlist[26]) + " BLK | " + str(statlist[27]) + " TOV | " +
                          str(statlist[28]) + " PF | " + str(statlist[29]) + " PTS |")
@@ -219,9 +219,9 @@ def get_stats(stub, year, per, playoffs):
         if year == "career":
             formatted = ("| " + namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[6]) + " GP | " +
                          str(statlist[7]) + " GS | " + str(statlist[8]) + " MPG | " + str(statlist[9]) + " FGM | " +
-                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PA | " +
-                         str(statlist[13]) + " 3PM | " + str(statlist[14]) + " 3P% | " + str(statlist[19]) + " FTA | " +
-                         str(statlist[20]) + " FTM | " + str(statlist[21]) + " FT% | " + str(statlist[22]) + " ORB | " +
+                         str(statlist[10]) + " FGA | " + str(statlist[11]) + " FG% | " + str(statlist[12]) + " 3PM | " +
+                         str(statlist[13]) + " 3PA | " + str(statlist[14]) + " 3P% | " + str(statlist[19]) + " FTM | " +
+                         str(statlist[20]) + " FTA | " + str(statlist[21]) + " FT% | " + str(statlist[22]) + " ORB | " +
                          str(statlist[23]) + " DRB | " + str(statlist[24]) + " TRB | " + str(statlist[25]) + " APG | " +
                          str(statlist[26]) + " SPG | " + str(statlist[27]) + " BPG | " + str(statlist[28]) + " TOV | " +
                          str(statlist[29]) + " PF | " + str(statlist[30]) + " PPG |")
