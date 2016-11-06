@@ -5,7 +5,7 @@ import re
 from lxml import etree
 import types
 
-administrators = ["bluesoul"]  # Multiple nicks are separated by commas and delimited with quotes.
+administrators = ["bluesoul", "macky", "toxicdick"]  # Multiple nicks are separated by commas and delimited with quotes.
 
 
 def db_init(db):
@@ -62,6 +62,8 @@ def get_stats(stub, year, per, playoffs):
     read = handle.read()
     read = read.replace("<!--", "")    # Everything but per-game is commented out
     read = read.replace("-->", "")     # for some stupid reason as of November 2016
+
+    read = read.replace("></td>", ">N/A</td>") # new behavior of blank entries when no 3s taken, for example
     results = etree.HTML(read)
     name = results.xpath('.//h1')
     namefield = []
