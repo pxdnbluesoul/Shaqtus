@@ -148,34 +148,34 @@ def get_stats(stub, year, per, playoffs):
     print statlist
     if per == "advanced":
         if year == "career":
-            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[4]) + " PER | " +
-                         str(statlist[5]) + " TS% | " +
-                         str(statlist[6]) + " 3PAr | " + str(statlist[7]) + " FTr | " + str(statlist[8]) + " ORB% | " +
-                         str(statlist[9]) + " DRB% | " + str(statlist[10]) + " TRB% | " + str(statlist[11]) + " AST% | " +
-                         str(statlist[12]) + " STL% | " + str(statlist[13]) + " BLK% | " + str(statlist[14]) + " TOV% | " +
-                         str(statlist[15]) + " USG% | " + str(statlist[16]) + " OWS | " + str(statlist[17]) + " DWS | " +
-                         str(statlist[18]) + " WS | " + str(statlist[19]) + " WS/48 | " + str(statlist[20]) + " OBPM | " +
-                         str(statlist[21]) + " DBPM | " + str(statlist[22]) + " BPM | " + str(statlist[23]) + " VORP")
+            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[7]) + " PER | " +
+                         str(statlist[8]) + " TS% | " +
+                         str(statlist[9]) + " 3PAr | " + str(statlist[10]) + " FTr | " + str(statlist[11]) + " ORB% | " +
+                         str(statlist[12]) + " DRB% | " + str(statlist[13]) + " TRB% | " + str(statlist[14]) + " AST% | " +
+                         str(statlist[15]) + " STL% | " + str(statlist[16]) + " BLK% | " + str(statlist[17]) + " TOV% | " +
+                         str(statlist[18]) + " USG% | " + str(statlist[20]) + " OWS | " + str(statlist[21]) + " DWS | " +
+                         str(statlist[22]) + " WS | " + str(statlist[23]) + " WS/48 | " + str(statlist[25]) + " OBPM | " +
+                         str(statlist[26]) + " DBPM | " + str(statlist[27]) + " BPM | " + str(statlist[28]) + " VORP")
         else:
             formatted = (namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[7]) + " PER | " +
                          str(statlist[8]) + " TS% | " +
                          str(statlist[9]) + " 3PAr | " + str(statlist[10]) + " FTr | " + str(statlist[11]) + " ORB% | " +
                          str(statlist[12]) + " DRB% | " + str(statlist[13]) + " TRB% | " + str(statlist[14]) + " AST% | " +
                          str(statlist[15]) + " STL% | " + str(statlist[16]) + " BLK% | " + str(statlist[17]) + " TOV% | " +
-                         str(statlist[18]) + " USG% | " + str(statlist[19]) + " OWS | " + str(statlist[20]) + " DWS | " +
-                         str(statlist[21]) + " WS | " + str(statlist[22]) + " WS/48 | " + str(statlist[23]) + " OBPM | " +
-                         str(statlist[24]) + " DBPM | " + str(statlist[25]) + " BPM | " + str(statlist[26]) + " VORP")
+                         str(statlist[18]) + " USG% | " + str(statlist[20]) + " OWS | " + str(statlist[21]) + " DWS | " +
+                         str(statlist[22]) + " WS | " + str(statlist[23]) + " WS/48 | " + str(statlist[25]) + " OBPM | " +
+                         str(statlist[26]) + " DBPM | " + str(statlist[27]) + " BPM | " + str(statlist[28]) + " VORP")
     elif per == "per100":
         if year == "career":
-            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[2]) + " GP | " +
-                         str(statlist[3]) + " GS | " + str(statlist[4]) + " MP | " + str(statlist[5]) + " FGM | " +
-                         str(statlist[6]) + " FGA | " + str(statlist[7]) + " FG% | " + str(statlist[8]) + " 3PM | " +
-                         str(statlist[9]) + " 3PA | " + str(statlist[10]) + " 3P% | " + str(statlist[14]) + " FTM | " +
-                         str(statlist[15]) + " FTA | " + str(statlist[16]) + " FT% | " + str(statlist[17]) + " ORB | " +
-                         str(statlist[18]) + " DRB | " + str(statlist[19]) + " TRB | " + str(statlist[20]) + " AST | " +
-                         str(statlist[21]) + " STL | " + str(statlist[22]) + " BLK | " + str(statlist[23]) + " TOV | " +
-                         str(statlist[24]) + " PF | " + str(statlist[25]) + " PTS | " + str(statlist[26]) + " ORtg | " +
-                         str(statlist[27]) + " DRtg")
+            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[5]) + " GP | " +
+                         str(statlist[6]) + " GS | " + str(statlist[7]) + " MP | " + str(statlist[8]) + " FGM | " +
+                         str(statlist[9]) + " FGA | " + str(statlist[10]) + " FG% | " + str(statlist[11]) + " 3PM | " +
+                         str(statlist[12]) + " 3PA | " + str(statlist[13]) + " 3P% | " + str(statlist[17]) + " FTM | " +
+                         str(statlist[18]) + " FTA | " + str(statlist[19]) + " FT% | " + str(statlist[20]) + " ORB | " +
+                         str(statlist[21]) + " DRB | " + str(statlist[22]) + " TRB | " + str(statlist[23]) + " AST | " +
+                         str(statlist[24]) + " STL | " + str(statlist[25]) + " BLK | " + str(statlist[26]) + " TOV | " +
+                         str(statlist[27]) + " PF | " + str(statlist[28]) + " PTS | " + str(statlist[30]) + " ORtg | " +
+                         str(statlist[31]) + " DRtg")
         else:
             formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[5]) + " GP | " +
                          str(statlist[6]) + " GS | " + str(statlist[7]) + " MP | " + str(statlist[8]) + " FGM | " +
@@ -184,18 +184,18 @@ def get_stats(stub, year, per, playoffs):
                          str(statlist[18]) + " FTA | " + str(statlist[19]) + " FT% | " + str(statlist[20]) + " ORB | " +
                          str(statlist[21]) + " DRB | " + str(statlist[22]) + " TRB | " + str(statlist[23]) + " AST | " +
                          str(statlist[24]) + " STL | " + str(statlist[25]) + " BLK | " + str(statlist[26]) + " TOV | " +
-                         str(statlist[27]) + " PF | " + str(statlist[28]) + " PTS | " + str(statlist[29]) + " ORtg | " +
-                         str(statlist[30]) + " DRtg")
+                         str(statlist[27]) + " PF | " + str(statlist[28]) + " PTS | " + str(statlist[30]) + " ORtg | " +
+                         str(statlist[31]) + " DRtg")
     elif per == "per36":
         if year == "career":
-            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[2]) + " GP | " +
-                         str(statlist[3]) + " GS | " + str(statlist[4]) + " MP | " + str(statlist[5]) + " FGM | " +
-                         str(statlist[6]) + " FGA | " + str(statlist[7]) + " FG% | " + str(statlist[8]) + " 3PM | " +
-                         str(statlist[9]) + " 3PA | " + str(statlist[10]) + " 3P% | " + str(statlist[14]) + " FTM | " +
-                         str(statlist[15]) + " FTA | " + str(statlist[16]) + " FT% | " + str(statlist[17]) + " ORB | " +
-                         str(statlist[18]) + " DRB | " + str(statlist[19]) + " TRB | " + str(statlist[20]) + " AST | " +
-                         str(statlist[21]) + " STL | " + str(statlist[22]) + " BLK | " + str(statlist[23]) + " TOV | " +
-                         str(statlist[24]) + " PF | " + str(statlist[25]) + " PTS")
+            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[5]) + " GP | " +
+                         str(statlist[6]) + " GS | " + str(statlist[7]) + " MP | " + str(statlist[8]) + " FGM | " +
+                         str(statlist[9]) + " FGA | " + str(statlist[10]) + " FG% | " + str(statlist[11]) + " 3PM | " +
+                         str(statlist[12]) + " 3PA | " + str(statlist[13]) + " 3P% | " + str(statlist[17]) + " FTM | " +
+                         str(statlist[18]) + " FTA | " + str(statlist[19]) + " FT% | " + str(statlist[20]) + " ORB | " +
+                         str(statlist[21]) + " DRB | " + str(statlist[22]) + " TRB | " + str(statlist[23]) + " AST | " +
+                         str(statlist[24]) + " STL | " + str(statlist[25]) + " BLK | " + str(statlist[26]) + " TOV | " +
+                         str(statlist[27]) + " PF | " + str(statlist[28]) + " PTS")
         else:
             formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[2]) + " | " +
                          str(statlist[5]) + " GP | " +
@@ -208,14 +208,14 @@ def get_stats(stub, year, per, playoffs):
                          str(statlist[27]) + " PF | " + str(statlist[28]) + " PTS")
     else:
         if year == "career":
-            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[2]) + " GP | " +
-                         str(statlist[3]) + " GS | " + str(statlist[4]) + " MPG | " + str(statlist[5]) + " FGM | " +
-                         str(statlist[6]) + " FGA | " + str(statlist[7]) + " FG% | " + str(statlist[8]) + " 3PM | " +
-                         str(statlist[9]) + " 3PA | " + str(statlist[10]) + " 3P% | " + str(statlist[15]) + " FTM | " +
-                         str(statlist[16]) + " FTA | " + str(statlist[17]) + " FT% | " + str(statlist[18]) + " ORB | " +
-                         str(statlist[19]) + " DRB | " + str(statlist[20]) + " TRB | " + str(statlist[21]) + " APG | " +
-                         str(statlist[22]) + " SPG | " + str(statlist[23]) + " BPG | " + str(statlist[24]) + " TOV | " +
-                         str(statlist[25]) + " PF | " + str(statlist[26]) + " PPG")
+            formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[5]) + " GP | " +
+                         str(statlist[6]) + " GS | " + str(statlist[7]) + " MPG | " + str(statlist[8]) + " FGM | " +
+                         str(statlist[9]) + " FGA | " + str(statlist[10]) + " FG% | " + str(statlist[11]) + " 3PM | " +
+                         str(statlist[12]) + " 3PA | " + str(statlist[13]) + " 3P% | " + str(statlist[18]) + " FTM | " +
+                         str(statlist[19]) + " FTA | " + str(statlist[20]) + " FT% | " + str(statlist[21]) + " ORB | " +
+                         str(statlist[22]) + " DRB | " + str(statlist[23]) + " TRB | " + str(statlist[24]) + " APG | " +
+                         str(statlist[25]) + " SPG | " + str(statlist[26]) + " BPG | " + str(statlist[27]) + " TOV | " +
+                         str(statlist[28]) + " PF | " + str(statlist[29]) + " PPG")
         else:
             formatted = (namefield[0] + " | " + str(statlist[0]) + " | " + str(statlist[2]) + " | " +
                          str(statlist[5]) + " GP | " +
