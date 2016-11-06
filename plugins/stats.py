@@ -269,7 +269,14 @@ def find_player(inp):
         output = output.split("|")
         return output  # Return a list
     else:
-        output = "No results found."
+        actual = handle.geturl() # may have been sent directly to the player page
+        if "players" in actual:
+            print "One match, redirected to player page."
+            actual = actual.replace("http://www.basketball-reference.com/players/", "")
+            output = actual + "|" + inp
+            output = output.split("|")
+        else:
+            output = "No results found."
         return output
 
 
