@@ -157,7 +157,7 @@ def get_stats(stub, year, per, playoffs):
                          str(statlist[22]) + " WS | " + str(statlist[23]) + " WS/48 | " + str(statlist[25]) + " OBPM | " +
                          str(statlist[26]) + " DBPM | " + str(statlist[27]) + " BPM | " + str(statlist[28]) + " VORP")
         else:
-            formatted = (namefield[0] + " | " + str(statlist[1]) + " | " + str(statlist[7]) + " PER | " +
+            formatted = (namefield[0] + " | Age " + str(statlist[1]) + " | " + str(statlist[7]) + " PER | " +
                          str(statlist[8]) + " TS% | " +
                          str(statlist[9]) + " 3PAr | " + str(statlist[10]) + " FTr | " + str(statlist[11]) + " ORB% | " +
                          str(statlist[12]) + " DRB% | " + str(statlist[13]) + " TRB% | " + str(statlist[14]) + " AST% | " +
@@ -274,7 +274,7 @@ def find_player(inp):
         actual = handle.geturl() # may have been sent directly to the player page
         if "players" in actual:
             print "One match, redirected to player page."
-            actual = actual.replace("http://www.basketball-reference.com/players/", "")
+            actual = actual.replace("https://www.basketball-reference.com/players/", "")
             output = actual + "|" + inp
             output = output.split("|")
         else:
@@ -360,10 +360,10 @@ def stats(inp, db=None):
 
 @hook.command
 def addlink(inp, nick='', db=None):
-    """.addlink <shortened link to bball-ref page>:<search terms> -- Manually add player link. e.g., .addlink o/onealsh01.html:shaq"""
+    """.addlink <shortened link to bball-ref page> <search terms> -- Manually add player link. e.g., .addlink o/onealsh01.html shaq"""
 
     if nick in administrators:
-        arglist = inp.split(':', 1)
+        arglist = inp.split(' ', 1)
         stub = store_link(db, arglist[0], urllib.quote_plus(arglist[1]))
         return "Stored " + stub + " for term " + arglist[1]
     else:
