@@ -37,6 +37,7 @@ def store_link(db, stub, search):
     print "In store_link function."
     try:
         db.execute("insert into searches (search_string, link) VALUES (?, ?)", (search.lower(), stub))
+        db.commit()
     except db.Error as e:
         print "Error in store_link: " + str(e)
     return stub
@@ -46,6 +47,7 @@ def remove_link(db, search):
     print "In remove_link function."
     try:
         db.execute("delete from searches where search_string = ?", (search.lower(),))
+        db.commit()
         return True
     except db.Error as e:
         print "Error in remove_link: " + str(e)
@@ -288,6 +290,7 @@ def stats(inp, db=None):
 
     print "In stats function."
     db_init(db)
+    db.commit()
 
     yearmatch = re.search('(\d\d\d\d)', inp)
     year = None  # Prepping for get_stats if no year set. Defaults to most recent.
